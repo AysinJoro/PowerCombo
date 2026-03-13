@@ -1,657 +1,993 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cubenergy PowerCombo® — 完整技术手册 / Manuale Tecnico Completo</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>CUBENERGY — Guida alla Selezione Prodotti & Architettura FlexCombo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --cube-blue: #0078C8;
+  --cube-blue: #0072CE;
   --cube-dark: #0A1628;
+  --cube-navy: #1B2D4F;
+  --cube-mid: #2F5496;
+  --cube-light: #E8F0FE;
   --cube-accent: #00B4D8;
-  --cube-light: #E8F4FD;
-  --cube-bg: #F4F7FA;
+  --cube-green: #10B981;
+  --cube-orange: #F59E0B;
+  --cube-red: #EF4444;
+  --cube-gray: #64748B;
+  --cube-bg: #F8FAFD;
   --cube-white: #FFFFFF;
-  --cube-border: #D0DAE4;
-  --cube-green: #1B8A2E;
-  --cube-grey: #8899AA;
-  --cube-warn: #E67E22;
-  --cube-red: #C0392B;
-  --radius: 8px;
-  --shadow: 0 2px 12px rgba(10,22,40,0.08);
-  --shadow-lg: 0 8px 32px rgba(10,22,40,0.12);
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.08);
+  --shadow-md: 0 4px 16px rgba(10,22,40,0.1);
+  --shadow-lg: 0 8px 32px rgba(10,22,40,0.14);
+  --radius: 12px;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-
 body {
-  font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background: var(--cube-bg);
   color: var(--cube-dark);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-/* ── Header ── */
-.site-header {
-  background: linear-gradient(135deg, var(--cube-dark) 0%, #132744 50%, var(--cube-blue) 100%);
+/* HEADER */
+.hero {
+  background: linear-gradient(135deg, var(--cube-dark) 0%, var(--cube-navy) 40%, var(--cube-mid) 100%);
   color: white;
-  padding: 40px 0 32px;
+  padding: 48px 40px 36px;
   position: relative;
   overflow: hidden;
 }
-.site-header::before {
+.hero::before {
   content: '';
   position: absolute;
-  top: -50%; right: -20%;
+  top: -60%; right: -10%;
   width: 600px; height: 600px;
   background: radial-gradient(circle, rgba(0,180,216,0.15) 0%, transparent 70%);
-  pointer-events: none;
+  border-radius: 50%;
 }
-.header-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 32px;
-  position: relative;
-  z-index: 1;
-}
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.logo {
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-.logo span { color: var(--cube-accent); }
-.lang-toggle {
-  display: flex;
-  gap: 4px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 6px;
-  padding: 3px;
-  backdrop-filter: blur(8px);
-}
-.lang-btn {
-  padding: 6px 16px;
-  border: none;
-  border-radius: 4px;
-  background: transparent;
-  color: rgba(255,255,255,0.7);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.lang-btn.active {
-  background: var(--cube-accent);
-  color: white;
-}
-.header-title {
-  font-size: 22px;
-  font-weight: 600;
-  opacity: 0.95;
-}
-.header-sub {
-  font-size: 14px;
-  opacity: 0.65;
-  margin-top: 4px;
-}
+.hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.hero-logo svg { width: 40px; height: 40px; }
+.hero-logo span { font-size: 28px; font-weight: 700; letter-spacing: 2px; }
+.hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+.hero p { font-size: 15px; opacity: 0.75; max-width: 700px; }
 
-/* ── Navigation ── */
-.nav-bar {
-  background: var(--cube-white);
-  border-bottom: 1px solid var(--cube-border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow);
-}
-.nav-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 32px;
+/* TAB NAV */
+.tab-nav {
   display: flex;
   gap: 0;
-  overflow-x: auto;
-  scrollbar-width: thin;
+  max-width: 1200px;
+  margin: -20px auto 0;
+  position: relative;
+  z-index: 2;
+  padding: 0 40px;
 }
-.nav-link {
-  padding: 12px 18px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--cube-grey);
-  text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s;
+.tab-btn {
+  flex: 1;
+  padding: 18px 24px;
+  background: var(--cube-white);
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--cube-gray);
+  transition: all 0.3s;
+  border-bottom: 3px solid transparent;
+  box-shadow: var(--shadow-sm);
 }
-.nav-link:hover, .nav-link.active {
+.tab-btn:first-child { border-radius: var(--radius) 0 0 0; }
+.tab-btn:last-child { border-radius: 0 var(--radius) 0 0; }
+.tab-btn.active {
   color: var(--cube-blue);
   border-bottom-color: var(--cube-blue);
+  background: white;
+  font-weight: 700;
+}
+.tab-btn:hover:not(.active) { color: var(--cube-dark); background: #F1F5F9; }
+.tab-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+
+/* CONTENT AREA */
+.content { max-width: 1200px; margin: 0 auto; padding: 32px 40px 60px; }
+.tab-panel { display: none; animation: fadeUp 0.4s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+
+/* ====== TAB 1: PRODUCT SELECTOR ====== */
+.selector-intro {
+  background: white;
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 28px;
+  border-left: 4px solid var(--cube-blue);
+}
+.selector-intro h2 { font-size: 22px; margin-bottom: 6px; color: var(--cube-navy); }
+.selector-intro p { color: var(--cube-gray); font-size: 14px; }
+
+/* Decision steps */
+.step-container { display: flex; flex-direction: column; gap: 20px; }
+.step-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.step-card:hover { box-shadow: var(--shadow-md); }
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 28px;
+  background: linear-gradient(90deg, var(--cube-light), white);
+  border-bottom: 1px solid #E2E8F0;
+}
+.step-num {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--cube-blue);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.step-num.done { background: var(--cube-green); }
+.step-title { font-size: 17px; font-weight: 600; }
+.step-subtitle { font-size: 13px; color: var(--cube-gray); }
+.step-body { padding: 24px 28px; }
+
+/* Option buttons */
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.opt-btn {
+  position: relative;
+  padding: 20px 18px;
+  border: 2px solid #E2E8F0;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.25s;
+}
+.opt-btn:hover { border-color: var(--cube-accent); background: #F0FAFF; }
+.opt-btn.selected { border-color: var(--cube-blue); background: var(--cube-light); box-shadow: 0 0 0 3px rgba(0,114,206,0.15); }
+.opt-btn .opt-label { font-size: 16px; font-weight: 600; display: block; margin-bottom: 4px; }
+.opt-btn .opt-desc { font-size: 12px; color: var(--cube-gray); line-height: 1.5; }
+.opt-btn .opt-badge {
+  position: absolute;
+  top: 10px; right: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--cube-green);
+  color: white;
 }
 
-/* ── Sections ── */
-.content { max-width: 1440px; margin: 0 auto; padding: 24px 32px 60px; }
-
-.section {
-  margin-bottom: 40px;
-  scroll-margin-top: 60px;
+/* Result card */
+.result-panel {
+  margin-top: 28px;
+  background: linear-gradient(135deg, var(--cube-navy), var(--cube-mid));
+  border-radius: var(--radius);
+  padding: 32px;
+  color: white;
+  display: none;
+  animation: fadeUp 0.5s ease;
 }
-.section-header {
+.result-panel.visible { display: block; }
+.result-panel h3 { font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.result-box {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 18px;
+  backdrop-filter: blur(4px);
+}
+.result-box .rb-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 4px; }
+.result-box .rb-value { font-size: 18px; font-weight: 700; }
+.result-box .rb-detail { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+.cei-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16,185,129,0.2);
+  border: 1px solid rgba(16,185,129,0.4);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 16px;
+}
+.cei-badge.warn {
+  background: rgba(245,158,11,0.2);
+  border-color: rgba(245,158,11,0.4);
+}
+
+.reset-btn {
+  margin-top: 20px;
+  padding: 10px 24px;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+.reset-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* ====== TAB 2: FLEXCOMBO DIAGRAM ====== */
+.flex-intro {
+  background: white;
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 28px;
+  border-left: 4px solid var(--cube-accent);
+}
+.flex-intro h2 { font-size: 22px; margin-bottom: 6px; color: var(--cube-navy); }
+.flex-intro p { color: var(--cube-gray); font-size: 14px; }
+
+.flex-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.flex-controls label { font-weight: 600; font-size: 15px; }
+.slider-wrap {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
 }
-.section-num {
-  background: var(--cube-blue);
-  color: white;
-  font-size: 12px;
-  font-weight: 700;
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.slider-wrap input[type=range] {
+  width: 200px;
+  accent-color: var(--cube-blue);
 }
-.section-title {
+.slider-val {
+  font-family: 'Space Mono', monospace;
   font-size: 20px;
   font-weight: 700;
-  color: var(--cube-dark);
-}
-.section-title-it {
-  font-size: 14px;
-  color: var(--cube-grey);
-  font-weight: 500;
-  margin-left: 8px;
-}
-
-/* ── Tables ── */
-.table-wrap {
-  overflow-x: auto;
-  background: var(--cube-white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--cube-border);
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12.5px;
-}
-th {
-  background: var(--cube-dark);
-  color: white;
-  font-weight: 600;
-  padding: 10px 12px;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  white-space: nowrap;
-  font-size: 12px;
-}
-th.param-col {
-  min-width: 200px;
-  text-align: left;
-  background: #132744;
-}
-th.cat-col {
-  min-width: 120px;
-  text-align: left;
-  background: #132744;
-}
-td {
-  padding: 8px 12px;
-  border-bottom: 1px solid #EEF1F5;
-  text-align: center;
-  vertical-align: middle;
-  font-family: 'JetBrains Mono', 'DM Sans', monospace;
-  font-size: 12px;
-}
-td.param {
-  text-align: left;
-  font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
-  font-weight: 600;
-  color: var(--cube-dark);
-  font-size: 12.5px;
-}
-td.param .it { 
-  display: block;
-  font-weight: 400;
-  color: var(--cube-grey);
-  font-size: 11px;
-  margin-top: 1px;
-}
-td.cat {
-  text-align: left;
-  font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
-  font-size: 11px;
-  color: var(--cube-grey);
-}
-tr.category-row td {
-  background: var(--cube-light);
-  font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  text-align: left;
   color: var(--cube-blue);
-  padding: 10px 12px;
-  border-bottom: 2px solid var(--cube-blue);
+  min-width: 30px;
+  text-align: center;
 }
-tr:hover td:not(.category-row td) { background: #F8FAFC; }
-.val-green { color: var(--cube-green); font-weight: 600; }
-.val-grey { color: #B0B8C4; }
-.val-warn { color: var(--cube-warn); font-weight: 600; }
-.val-highlight { background: #FFFDE7 !important; }
 
-/* ── Footer ── */
-.site-footer {
-  background: var(--cube-dark);
-  color: rgba(255,255,255,0.5);
+.flex-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 18px 16px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+.stat-card .stat-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--cube-blue);
+}
+.stat-card .stat-label { font-size: 12px; color: var(--cube-gray); margin-top: 4px; }
+
+/* Diagram area */
+.diagram-container {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 32px;
+  overflow-x: auto;
+}
+.diagram-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--cube-navy); }
+
+/* SVG diagram styling via CSS */
+.d1-block { transition: opacity 0.4s, transform 0.4s; }
+.d1-block.hidden { opacity: 0.1; transform: scale(0.95); }
+
+.legend-row {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--cube-gray);
+}
+.legend-dot {
+  width: 14px; height: 14px;
+  border-radius: 4px;
+}
+
+/* MV Transformer note */
+.mv-note {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: #FFF7ED;
+  border-left: 4px solid var(--cube-orange);
+  border-radius: 0 10px 10px 0;
+  font-size: 13px;
+  color: #92400E;
+}
+.mv-note strong { color: #78350F; }
+
+/* Footer */
+.footer {
   text-align: center;
   padding: 24px;
+  color: var(--cube-gray);
   font-size: 12px;
+  border-top: 1px solid #E2E8F0;
+  margin-top: 40px;
 }
 
-/* ── Note box ── */
-.note-box {
-  background: #FFF8E1;
-  border-left: 4px solid var(--cube-warn);
-  padding: 12px 16px;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  margin-bottom: 20px;
-  font-size: 13px;
-}
-.note-box strong { color: var(--cube-warn); }
-
-/* print */
-@media print {
-  .nav-bar, .lang-toggle { display: none; }
-  .section { page-break-inside: avoid; }
-  table { font-size: 10px; }
-}
 @media (max-width: 768px) {
-  .header-inner, .content, .nav-inner { padding: 0 16px; }
-  .section-title { font-size: 17px; }
-  table { font-size: 11px; }
+  .hero { padding: 32px 20px 28px; }
+  .hero h1 { font-size: 24px; }
+  .tab-nav { padding: 0 20px; }
+  .tab-btn { font-size: 13px; padding: 14px 12px; }
+  .content { padding: 20px; }
+  .result-grid { grid-template-columns: 1fr; }
+  .flex-stats { grid-template-columns: repeat(2, 1fr); }
+  .option-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════ HEADER ═══════ -->
-<header class="site-header">
-  <div class="header-inner">
-    <div class="header-top">
-      <div class="logo">⚡ CUBE<span>N</span>ERGY</div>
-      <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('zh')">中文</button>
-        <button class="lang-btn" onclick="setLang('it')">Italiano</button>
-        <button class="lang-btn" onclick="setLang('both')">双语 Bilingue</button>
-      </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="32" height="32" rx="4" stroke="white" stroke-width="2.5"/>
+        <path d="M14 12 L26 20 L14 28Z" fill="white" opacity="0.9"/>
+      </svg>
+      <span>CUBENERGY</span>
     </div>
-    <div class="header-title" id="headerTitle">PowerCombo® 全系列产品技术手册</div>
-    <div class="header-sub" id="headerSub">基于官方Datasheet · 包含全部型号 / 电池簇 / PCS / BMS / GPC / CEI 0-16认证数据</div>
+    <h1>Guida alla Selezione Prodotti BESS</h1>
+    <p>Strumento interattivo per la configurazione ottimale del sistema di accumulo — Mercato Italiano C&I / Utility</p>
   </div>
-</header>
+</div>
 
-<!-- ═══════ NAV ═══════ -->
-<nav class="nav-bar">
-  <div class="nav-inner">
-    <a class="nav-link active" href="#s1" data-zh="系统级对比" data-it="Confronto Sistema">系统级对比</a>
-    <a class="nav-link" href="#s2" data-zh="电池簇详情" data-it="Dettaglio Stringa">电池簇详情</a>
-    <a class="nav-link" href="#s3" data-zh="PCS详情" data-it="Dettaglio PCS">PCS详情</a>
-    <a class="nav-link" href="#s4" data-zh="BMS详情" data-it="Dettaglio BMS">BMS详情</a>
-    <a class="nav-link" href="#s5" data-zh="GPC控制器" data-it="Controllore GPC">GPC控制器</a>
-    <a class="nav-link" href="#s6" data-zh="CEI 0-16认证" data-it="Certificazione CEI 0-16">CEI 0-16认证</a>
-    <a class="nav-link" href="#s7" data-zh="认证汇总" data-it="Riepilogo Certificazioni">认证汇总</a>
-  </div>
-</nav>
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">
+    <span class="tab-icon">🎯</span>
+    Selezione Prodotto
+  </button>
+  <button class="tab-btn" onclick="switchTab(1)">
+    <span class="tab-icon">🔧</span>
+    Architettura FlexCombo
+  </button>
+</div>
 
+<!-- CONTENT -->
 <div class="content">
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 1: System Level Comparison            -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="section" id="s1">
-  <div class="section-header">
-    <div class="section-num">1</div>
-    <div class="section-title"><span class="zh">系统级对比</span><span class="it" style="display:none">Confronto a Livello di Sistema</span><span class="section-title-it it-sub"> / Confronto a Livello di Sistema</span></div>
+  <!-- ====== TAB 1: PRODUCT SELECTOR ====== -->
+  <div class="tab-panel active" id="tab0">
+
+    <div class="selector-intro">
+      <h2>🇮🇹 Configuratore di Selezione Rapida</h2>
+      <p>Rispondi alle domande seguenti per identificare il prodotto CUBENERGY ideale per il tuo progetto. Ogni scelta aggiorna automaticamente la raccomandazione.</p>
+    </div>
+
+    <div class="step-container">
+
+      <!-- STEP 1: Grid Connection -->
+      <div class="step-card" id="step1">
+        <div class="step-header">
+          <div class="step-num" id="sn1">1</div>
+          <div>
+            <div class="step-title">Tensione di connessione alla rete</div>
+            <div class="step-subtitle">Grid Connection Voltage — Livello di connessione dell'impianto</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="option-grid">
+            <button class="opt-btn" onclick="selectStep(1,'400v')" id="opt-400v">
+              <span class="opt-label">400V (Bassa Tensione)</span>
+              <span class="opt-desc">Connessione BT, tipica per piccoli impianti C&I &lt; 400 kW. Normativa CEI 0-21.</span>
+            </button>
+            <button class="opt-btn" onclick="selectStep(1,'690v')" id="opt-690v">
+              <span class="opt-label">690V (Media Tensione)</span>
+              <span class="opt-desc">Connessione MT tramite trasformatore, impianti ≥ 400 kW. Normativa CEI 0-16.</span>
+              <span class="opt-badge">CEI 0-16</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Power Range -->
+      <div class="step-card" id="step2" style="opacity:0.4; pointer-events:none;">
+        <div class="step-header">
+          <div class="step-num" id="sn2">2</div>
+          <div>
+            <div class="step-title">Potenza nominale richiesta</div>
+            <div class="step-subtitle">Required Rated Power — Dimensionamento della potenza AC</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="option-grid" id="power-options"></div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Capacity / Duration -->
+      <div class="step-card" id="step3" style="opacity:0.4; pointer-events:none;">
+        <div class="step-header">
+          <div class="step-num" id="sn3">3</div>
+          <div>
+            <div class="step-title">Durata di scarica / Capacità richiesta</div>
+            <div class="step-subtitle">Discharge Duration / Capacity — Ore di autonomia e kWh necessari</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="option-grid" id="capacity-options"></div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Special requirements -->
+      <div class="step-card" id="step4" style="opacity:0.4; pointer-events:none;">
+        <div class="step-header">
+          <div class="step-num" id="sn4">4</div>
+          <div>
+            <div class="step-title">Requisiti speciali</div>
+            <div class="step-subtitle">Special Requirements — Funzionalità aggiuntive</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="option-grid" id="special-options"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-panel" id="result-panel"></div>
+
   </div>
 
-  <div class="note-box">
-    <strong>⚠ <span class="zh">注意</span><span class="it" style="display:none">Nota</span>:</strong>
-    <span class="zh">20C2H1200K存在两个版本差异：总册(2025)使用314Ah电芯，单品PDF使用280Ah电芯。建议向Cubenergy确认最新版本。</span>
-    <span class="it" style="display:none">Il 20C2H1200K presenta differenze tra due versioni: il catalogo (2025) utilizza celle da 314Ah, la scheda tecnica utilizza celle da 280Ah. Si consiglia di verificare con Cubenergy la versione aggiornata.</span>
+  <!-- ====== TAB 2: FLEXCOMBO ====== -->
+  <div class="tab-panel" id="tab1">
+
+    <div class="flex-intro">
+      <h2>Architettura Modulare FlexCombo D6500</h2>
+      <p>FlexCombo utilizza un design modulare con blocchi D1 standardizzati. Ogni blocco D1 contiene 2 stringhe batteria + sistema ausiliario. Regola il cursore per visualizzare la scalabilità del sistema.</p>
+    </div>
+
+    <div class="flex-controls">
+      <label>Numero di moduli D1:</label>
+      <div class="slider-wrap">
+        <span style="font-size:13px; color:var(--cube-gray);">1</span>
+        <input type="range" id="d1Slider" min="1" max="8" value="4" oninput="updateFlexDiagram()">
+        <span style="font-size:13px; color:var(--cube-gray);">8</span>
+        <span class="slider-val" id="d1Count">4</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="flex-stats">
+      <div class="stat-card">
+        <div class="stat-val" id="fCapacity">3.340</div>
+        <div class="stat-label">Capacità Totale (kWh)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="fPower">1.600</div>
+        <div class="stat-label">Potenza AC (kW)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="fStrings">8</div>
+        <div class="stat-label">N° Stringhe Batteria</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="fWeight">31,2</div>
+        <div class="stat-label">Peso Totale (t)</div>
+      </div>
+    </div>
+
+    <!-- Diagram -->
+    <div class="diagram-container">
+      <div class="diagram-title">Topologia di Sistema — FlexCombo D6500</div>
+      <svg id="flexSvg" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"></svg>
+
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:#0072CE;"></div> Modulo D1 (2 stringhe batteria + ausiliari)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F59E0B;"></div> PowerRack (PCS 8×200kW)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#10B981;"></div> Trasformatore MV Container</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#8B5CF6;"></div> GPC (GridPoint Controller)</div>
+      </div>
+
+      <div class="mv-note" id="mvNote">
+        <strong>⚡ Nota Trasformatore MV:</strong> Con <span id="mvD1count">4</span> moduli D1 (<span id="mvPower2">1.600</span> kW), si consiglia il container <strong id="mvModel">CBMV-3300-EU</strong> (<span id="mvKVA">3.300</span> kVA). Per ≥5 moduli D1 (≥2.000 kW), passare al <strong>CBMV-6600-EU</strong> (6.600 kVA).
+      </div>
+    </div>
+
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="cat-col"><span class="zh">分类</span><span class="it" style="display:none">Categoria</span></th>
-          <th class="param-col"><span class="zh">参数</span><span class="it" style="display:none">Parametro</span></th>
-          <th>20C2H1600K</th>
-          <th>20C2H1000KLS<br>(6LP48)</th>
-          <th>20C2H1000KLS<br>(5LP48)</th>
-          <th>20C2H1200K<br><span class="zh">总册/314Ah</span><span class="it" style="display:none">Catalogo/314Ah</span></th>
-          <th>20C2H1200K<br><span class="zh">单品/280Ah</span><span class="it" style="display:none">Scheda/280Ah</span></th>
-          <th>20C1H1000K</th>
-          <th>10C2H250K</th>
-          <th>10C2H360K</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- 产品概述 -->
-        <tr class="category-row"><td colspan="10"><span class="zh">产品概述</span><span class="it" style="display:none">Panoramica Prodotto</span></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">完整型号</span><span class="it" style="display:none">Modello completo</span></td><td>20C2H1600K-8LS385-8LP48</td><td>20C2H1000KLS-8LS385-6LP48</td><td>20C2H1000KLS-8LS385-5LP48</td><td>20C2H1200K-6S418-24P16</td><td>20C2H1200K-6S373-24P1X</td><td>20C1H1000K-8S138-15P9</td><td>10C2H250K-2S418-23P16</td><td>10C2H360K-2S418-23P16</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">集装箱尺寸</span><span class="it" style="display:none">Dimensione container</span></td><td>20ft</td><td>20ft</td><td>20ft</td><td>20ft</td><td>20ft</td><td>20ft</td><td>10ft</td><td>10ft</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">最小放电时长</span><span class="it" style="display:none">Durata min. scarica</span></td><td>2h</td><td>2h</td><td>2h</td><td>2h</td><td>2h</td><td>1h</td><td>2h</td><td>2h</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">冷却方式</span><span class="it" style="display:none">Raffreddamento</span></td><td><span class="zh">液冷</span><span class="it" style="display:none">Liquido</span></td><td><span class="zh">液冷</span><span class="it" style="display:none">Liquido</span></td><td><span class="zh">液冷</span><span class="it" style="display:none">Liquido</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td></tr>
-
-        <!-- DC 电池数据 -->
-        <tr class="category-row"><td colspan="10"><span class="zh">DC 电池数据</span><span class="it" style="display:none">Dati DC — Batteria</span></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">电池化学类型</span><span class="it" style="display:none">Chimica batteria</span></td><td>LFP</td><td>LFP</td><td>LFP</td><td>LFP</td><td>LFP</td><td>LFP</td><td>LFP</td><td>LFP</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">电芯规格</span><span class="it" style="display:none">Specifica cella</span></td><td>3.2V/314Ah</td><td>3.2V/314Ah</td><td>3.2V/314Ah</td><td>3.2V/314Ah</td><td class="val-warn">3.2V/280Ah</td><td>3.2V/90Ah</td><td>3.2V/314Ah</td><td>3.2V/314Ah</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">电芯寿命</span><span class="it" style="display:none">Ciclo di vita cella</span></td><td>8,000@0.5C<br>70% ret.</td><td>8,000@0.5C<br>70% ret.</td><td>8,000@0.5C<br>70% ret.</td><td>8,000@0.5C<br>70% ret.</td><td class="val-warn">5,000@0.5C<br>80% ret.</td><td>6,000@1C<br>80% ret.</td><td>8,000@0.5C<br>70% ret.</td><td>8,000@0.5C<br>70% ret.</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">串联配置</span><span class="it" style="display:none">Config. stringa</span></td><td>1P384S</td><td>1P288S</td><td>1P240S</td><td>1P384S</td><td>1P384S</td><td>2P240S</td><td>1P320S</td><td>1P368S</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">电池簇数量</span><span class="it" style="display:none">N. stringhe</span></td><td>8</td><td>8</td><td>8</td><td>6</td><td>6</td><td>8</td><td>2</td><td>2</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">每簇Pack数</span><span class="it" style="display:none">Pack per stringa</span></td><td>8</td><td>6</td><td>5</td><td>24</td><td>24</td><td>15</td><td>23</td><td>23</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">每Pack容量</span><span class="it" style="display:none">Capacità Pack</span></td><td>48kWh</td><td>48kWh</td><td>48kWh</td><td>16kWh</td><td>14/16kWh</td><td>9kWh</td><td>16kWh</td><td>16kWh</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">DC额定能量</span><span class="it" style="display:none">Capacità nom. DC</span></td><td><strong>3,086kWh</strong></td><td><strong>2,315kWh</strong></td><td><strong>1,929kWh</strong></td><td><strong>2,315kWh</strong></td><td class="val-warn"><strong>2,064kWh</strong></td><td><strong>1,105kWh</strong></td><td><strong>643kWh</strong></td><td><strong>740kWh</strong></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">DC额定电压</span><span class="it" style="display:none">Tensione nom. DC</span></td><td>1,228.8V</td><td>921.6V</td><td>768V</td><td>1,228.8V</td><td>1,228.8V</td><td>768V</td><td>1,024V</td><td>1,177.6V</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">DC电压范围</span><span class="it" style="display:none">Range tensione DC</span></td><td>1,075.2~<br>1,363.2V</td><td>806.4~<br>1,022.4V</td><td>672~852V</td><td>1,075.2~<br>1,363.2V</td><td>1,075.2~<br>1,363.2V</td><td>672~852V</td><td>896~1,136V</td><td>1,030.4~<br>1,306.4V</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">BMS通信接口</span><span class="it" style="display:none">Interfaccia BMS</span></td><td colspan="8" style="text-align:center">RS485, Ethernet</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">BMS通信协议</span><span class="it" style="display:none">Protocollo BMS</span></td><td colspan="8" style="text-align:center">Modbus RTU, Modbus TCP</td></tr>
-
-        <!-- AC 交流侧 -->
-        <tr class="category-row"><td colspan="10"><span class="zh">AC 交流侧数据</span><span class="it" style="display:none">Dati AC — Lato Rete</span></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">额定AC功率</span><span class="it" style="display:none">Potenza AC nom.</span></td><td><strong>1,600kW</strong></td><td><strong>1,000kW</strong></td><td><strong>1,000kW</strong></td><td><strong>1,200kW</strong></td><td><strong>1,200kW</strong></td><td><strong>1,000kW</strong></td><td><strong>250kW</strong></td><td><strong>360kW</strong></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">最大AC功率</span><span class="it" style="display:none">Potenza AC max</span></td><td>1,760kW</td><td>1,100kW</td><td>1,100kW</td><td>1,320kW</td><td>1,320kW</td><td>1,100kW</td><td>275kW</td><td>396kW</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">额定AC电压</span><span class="it" style="display:none">Tensione AC nom.</span></td><td>690V</td><td>400V</td><td>400V</td><td>690V</td><td>690V</td><td>400V</td><td>400V</td><td>690V</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">电网电压范围</span><span class="it" style="display:none">Range tens. rete</span></td><td>586.5~759V</td><td>340~440V</td><td>340~440V</td><td>586.5~759V</td><td>586.5~759V</td><td>360~440V</td><td>±15%/+10%</td><td>±15%/+10%</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">AC额定电流</span><span class="it" style="display:none">Corrente AC nom.</span></td><td>1,338.8A</td><td>1,443.4A</td><td>1,443.4A</td><td>1,004.1A</td><td>1,004.1A</td><td>1,443.4A</td><td>360.9A</td><td>301.2A</td></tr>
-        <tr><td class="cat"></td><td class="param">THDi</td><td colspan="8" style="text-align:center">&lt;3%</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">功率因数 PF</span><span class="it" style="display:none">Fattore di potenza</span></td><td>-1~+1</td><td>-1~+1</td><td>-1~+1</td><td>-1~+1</td><td class="val-warn">0.1~1 L/C</td><td>-1~+1</td><td>-1~+1</td><td>-1~+1</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">AC输出方式</span><span class="it" style="display:none">Uscita AC</span></td><td>3W+PE</td><td>3W+PE</td><td>3W+PE</td><td>3W+PE</td><td>3P3W+PE<br>(no trafo)</td><td>3W+PE</td><td>3W+PE</td><td>3W+PE</td></tr>
-
-        <!-- 通用数据 -->
-        <tr class="category-row"><td colspan="10"><span class="zh">系统通用数据</span><span class="it" style="display:none">Dati Generali Sistema</span></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">外形尺寸 L×W×H</span><span class="it" style="display:none">Dimensioni L×P×A</span></td><td>6,058×2,438<br>×2,896mm</td><td>6,058×2,438<br>×2,896mm</td><td>6,058×2,438<br>×2,896mm</td><td>6,058×2,438<br>×2,591mm</td><td>6,058×2,438<br>×2,591mm</td><td>6,058×2,438<br>×2,591mm</td><td>2,991×2,438<br>×2,591mm</td><td>2,991×2,438<br>×2,591mm</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">整机重量</span><span class="it" style="display:none">Peso sistema</span></td><td>≤31t</td><td>≤26.1t</td><td>≤23.6t</td><td>26.5t</td><td>26.5t</td><td>19.5t</td><td>9.2t</td><td>9.9t</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">防护等级</span><span class="it" style="display:none">Grado protezione</span></td><td colspan="8" style="text-align:center">IP54</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">工作温度</span><span class="it" style="display:none">Temp. operativa</span></td><td>-30~50°C</td><td>-30~50°C</td><td>-30~50°C</td><td>-35~40°C</td><td class="val-warn">-20~40°C<br>(max -30~55°C)</td><td>-30~55°C</td><td>-30~55°C</td><td>-30~55°C</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">相对湿度</span><span class="it" style="display:none">Umidità relativa</span></td><td colspan="8" style="text-align:center">0~95% (non-condensing / <span class="zh">非凝结</span><span class="it" style="display:none">senza condensa</span>)</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">最大工作海拔</span><span class="it" style="display:none">Altitudine max</span></td><td>2,000m</td><td>2,000m</td><td>2,000m</td><td>2,000m</td><td class="val-warn">3,000m</td><td>2,000m</td><td>2,000m</td><td>2,000m</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">DC舱冷却</span><span class="it" style="display:none">Raffredd. vano DC</span></td><td><span class="zh">液冷+除湿</span><span class="it" style="display:none">Liquido+deumid.</span></td><td><span class="zh">液冷+除湿</span><span class="it" style="display:none">Liquido+deumid.</span></td><td><span class="zh">液冷+除湿</span><span class="it" style="display:none">Liquido+deumid.</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td><td><span class="zh">风冷</span><span class="it" style="display:none">Aria</span></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">消防系统</span><span class="it" style="display:none">Antincendio</span></td><td>FK-5-1-12/<span class="zh">水</span><span class="it" style="display:none">Acqua</span></td><td>FK-5-1-12/<span class="zh">水</span><span class="it" style="display:none">Acqua</span></td><td>FK-5-1-12/<span class="zh">水</span><span class="it" style="display:none">Acqua</span></td><td>FK-5-1-12/<span class="zh">水</span><span class="it" style="display:none">Acqua</span></td><td>FK-5-1-12</td><td>FK-5-1-12/<span class="zh">水</span><span class="it" style="display:none">Acqua</span></td><td>FK-5-1-12/<span class="zh">水</span><span class="it" style="display:none">Acqua</span></td><td>FK-5-1-12/<span class="zh">水</span><span class="it" style="display:none">Acqua</span></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">通信接口</span><span class="it" style="display:none">Interfacce com.</span></td><td colspan="8" style="text-align:center">RS485, Ethernet</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">认证</span><span class="it" style="display:none">Certificazioni</span></td><td>UL9540, IEC62933,<br>UN3536, CE (TÜV)</td><td>UL9540, IEC62933,<br>UN3536, CE (TÜV)</td><td>UL9540, IEC62933,<br>UN3536, CE (TÜV)</td><td>UL9540, IEC62933,<br>UN3536, CE (TÜV)</td><td>UL9540, IEC62933,<br>UN3536, CE (TÜV)</td><td>UL9540,<br>UN3536</td><td>UL9540,<br>UN3536</td><td>UL9540,<br>UN3536</td></tr>
-
-        <!-- 衍生指标 -->
-        <tr class="category-row"><td colspan="10"><span class="zh">衍生指标（计算值）</span><span class="it" style="display:none">Indicatori Derivati (Calcolati)</span></td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">能量密度</span><span class="it" style="display:none">Densità energ.</span> (kWh/m³)</td><td><strong>72.2</strong></td><td>54.2</td><td>45.1</td><td>63.9</td><td>57.0</td><td>30.5</td><td>34.1</td><td>39.2</td></tr>
-        <tr><td class="cat"></td><td class="param">C-Rate</td><td>0.52C</td><td>0.43C</td><td>0.52C</td><td>0.52C</td><td>0.58C</td><td>0.91C</td><td>0.39C</td><td>0.49C</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">放电时长</span><span class="it" style="display:none">Durata scarica</span></td><td>1.93h</td><td>2.32h</td><td>1.93h</td><td>1.93h</td><td>1.72h</td><td>1.11h</td><td>2.57h</td><td>2.06h</td></tr>
-        <tr><td class="cat"></td><td class="param"><span class="zh">重量能量密度</span><span class="it" style="display:none">Dens. gravimetrica</span> (Wh/kg)</td><td><strong>99.5</strong></td><td>88.7</td><td>81.7</td><td>87.4</td><td>77.9</td><td>56.7</td><td>69.9</td><td>74.7</td></tr>
-      </tbody>
-    </table>
-  </div>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 2: Battery String Details             -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="section" id="s2">
-  <div class="section-header">
-    <div class="section-num">2</div>
-    <div class="section-title"><span class="zh">电池簇详情</span><span class="it" style="display:none">Dettaglio Stringa Batteria</span></div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th class="param-col"><span class="zh">参数</span><span class="it" style="display:none">Parametro</span></th><th>20C2H1600K</th><th>20C2H1000KLS</th><th>20C2H1200K (<span class="zh">单品PDF</span><span class="it" style="display:none">Scheda tecnica</span>)</th></tr></thead>
-      <tbody>
-        <tr><td class="param"><span class="zh">电池簇型号</span><span class="it" style="display:none">Modello stringa</span></td><td>LS385</td><td>LS385</td><td>S373-24P14</td></tr>
-        <tr><td class="param"><span class="zh">每簇Pack数量</span><span class="it" style="display:none">N. Pack per stringa</span></td><td>8</td><td>6</td><td>24</td></tr>
-        <tr><td class="param"><span class="zh">簇额定容量</span><span class="it" style="display:none">Capacità nom. stringa</span></td><td>385kWh</td><td>289kWh</td><td>344.06kWh</td></tr>
-        <tr><td class="param"><span class="zh">簇额定电压</span><span class="it" style="display:none">Tensione nom. stringa</span></td><td>1,228.8V</td><td>921.6V</td><td>1,228.8V</td></tr>
-        <tr><td class="param"><span class="zh">DC电压范围</span><span class="it" style="display:none">Range tensione DC</span></td><td>1,075.2~1,363.2V</td><td>806.4~1,022.4V</td><td>1,075.2~1,363.2V</td></tr>
-        <tr><td class="param">Pack</td><td>153.6V/314Ah @1P48S</td><td>153.6V/314Ah @1P48S</td><td>51.2V/280Ah @1P16S</td></tr>
-        <tr><td class="param"><span class="zh">通信方式</span><span class="it" style="display:none">Comunicazione</span></td><td colspan="3" style="text-align:center">Ethernet, CAN, RS485</td></tr>
-        <tr><td class="param"><span class="zh">簇尺寸 W×D×H</span><span class="it" style="display:none">Dimensioni L×P×A</span></td><td>862×1,100×2,228mm</td><td>862×1,100×2,228mm</td><td>1,440×750×2,150mm</td></tr>
-        <tr><td class="param"><span class="zh">簇重量</span><span class="it" style="display:none">Peso stringa</span></td><td>2,490kg (1600K)<br>1,880kg (1000KLS)</td><td>1,880kg</td><td>2,940kg</td></tr>
-        <tr><td class="param"><span class="zh">簇寿命</span><span class="it" style="display:none">Durata vita</span></td><td>&gt;8,000 @0.5C 70%</td><td>&gt;8,000 @0.5C 70%</td><td>&gt;5,000 @0.5C</td></tr>
-        <tr><td class="param"><span class="zh">簇认证</span><span class="it" style="display:none">Certificazioni</span></td><td colspan="3" style="text-align:center">UL1973, UL9540A, IEC62619, CE, UN38.3</td></tr>
-      </tbody>
-    </table>
-  </div>
+<div class="footer">
+  CUBENERGY — Documento interno per uso commerciale · Dati da schede tecniche ufficiali & Certificato TÜV Rheinland A3 50692809 0001 · ©2025
 </div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 3: PCS Details                         -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="section" id="s3">
-  <div class="section-header">
-    <div class="section-num">3</div>
-    <div class="section-title"><span class="zh">PCS 详情 (String PCS)</span><span class="it" style="display:none">Dettaglio PCS (String PCS)</span></div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th class="param-col"><span class="zh">参数</span><span class="it" style="display:none">Parametro</span></th><th>CBAC-125-HA-M</th><th>CBAC-140-HA-M</th><th>CBAC-160-HA-M</th><th>EH-0180-HA-M</th><th>EH-0200-HA-M</th><th>CBAC-215-HA-M</th></tr></thead>
-      <tbody>
-        <tr><td class="param"><span class="zh">适配系统</span><span class="it" style="display:none">Sistema compatibile</span></td><td>1000KLS (400V)</td><td>1000KLS (480V)</td><td>—</td><td>—</td><td>1600K / 1200K<br>(690V)</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">最大DC电压</span><span class="it" style="display:none">Tensione DC max</span></td><td>1,500V</td><td>1,500V</td><td>1,500V</td><td>1,500V</td><td>1,500V</td><td>1,500V</td></tr>
-        <tr><td class="param"><span class="zh">最大DC功率</span><span class="it" style="display:none">Potenza DC max</span></td><td>140kW</td><td>157kW</td><td>—</td><td>—</td><td>224kW</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">最大DC电流</span><span class="it" style="display:none">Corrente DC max</span></td><td>234A</td><td>224A</td><td>—</td><td>—</td><td>224A</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">DC电压范围</span><span class="it" style="display:none">Range tensione DC</span></td><td>600~1,100V</td><td>700~1,200V</td><td>—</td><td>—</td><td>1,000~1,400V</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">额定AC功率</span><span class="it" style="display:none">Potenza AC nom.</span></td><td><strong>125kW</strong></td><td><strong>140kW</strong></td><td><strong>160kW</strong></td><td><strong>180kW</strong></td><td><strong>200kW</strong></td><td><strong>215kW</strong></td></tr>
-        <tr><td class="param"><span class="zh">最大AC功率(kVA)</span><span class="it" style="display:none">Potenza apparente max</span></td><td>137.5kVA</td><td>154kVA</td><td>176kVA</td><td>198kVA</td><td>220kVA</td><td>236.5kVA</td></tr>
-        <tr><td class="param"><span class="zh">最大AC电流</span><span class="it" style="display:none">Corrente AC max</span></td><td>198.4A</td><td>185.2A</td><td>—</td><td>—</td><td>184.1A</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">额定电网电压</span><span class="it" style="display:none">Tensione rete nom.</span></td><td>400V</td><td>480V</td><td>—</td><td>—</td><td>690V</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">电网频率</span><span class="it" style="display:none">Frequenza rete</span></td><td colspan="6" style="text-align:center">50/60Hz</td></tr>
-        <tr><td class="param">PF</td><td colspan="6" style="text-align:center">-1~+1</td></tr>
-        <tr><td class="param">THD</td><td colspan="6" style="text-align:center">&lt;3%</td></tr>
-        <tr><td class="param"><span class="zh">尺寸 W×H×D</span><span class="it" style="display:none">Dimensioni L×A×P</span></td><td>810×845×275mm</td><td>810×845×275mm</td><td>—</td><td>—</td><td>810×845×275mm</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">单台重量</span><span class="it" style="display:none">Peso unitario</span></td><td>98kg</td><td>98kg</td><td>—</td><td>—</td><td>100kg</td><td>—</td></tr>
-        <tr><td class="param"><span class="zh">隔离方式</span><span class="it" style="display:none">Isolamento</span></td><td colspan="6" style="text-align:center"><span class="zh">非隔离型（外接变压器）</span><span class="it" style="display:none">Non isolato (trasformatore esterno)</span></td></tr>
-        <tr><td class="param"><span class="zh">最大效率</span><span class="it" style="display:none">Efficienza max</span></td><td colspan="6" style="text-align:center">99%</td></tr>
-        <tr><td class="param"><span class="zh">防护等级</span><span class="it" style="display:none">Grado protezione</span></td><td colspan="6" style="text-align:center">IP66</td></tr>
-        <tr><td class="param"><span class="zh">工作温度</span><span class="it" style="display:none">Temp. operativa</span></td><td colspan="6" style="text-align:center">-40~+60°C</td></tr>
-        <tr><td class="param"><span class="zh">湿度</span><span class="it" style="display:none">Umidità</span></td><td colspan="6" style="text-align:center">0~100% (non-condensing)</td></tr>
-        <tr><td class="param"><span class="zh">最大海拔</span><span class="it" style="display:none">Altitudine max</span></td><td colspan="6" style="text-align:center">4,000m (&gt;3,000m derating)</td></tr>
-        <tr><td class="param"><span class="zh">冷却方式</span><span class="it" style="display:none">Raffreddamento</span></td><td colspan="6" style="text-align:center"><span class="zh">温控强制风冷</span><span class="it" style="display:none">Ventilazione forzata a temperatura controllata</span></td></tr>
-        <tr><td class="param"><span class="zh">通信</span><span class="it" style="display:none">Comunicazione</span></td><td colspan="6" style="text-align:center">RS485 / CAN / Ethernet</td></tr>
-        <tr><td class="param"><span class="zh">CEI 0-16认证</span><span class="it" style="display:none">Cert. CEI 0-16</span></td><td class="val-green">✓ TÜV 09/2025</td><td class="val-green">✓ TÜV 09/2025</td><td class="val-green">✓ TÜV 09/2025</td><td class="val-green">✓ TÜV 09/2025</td><td class="val-green">✓ TÜV 09/2025</td><td class="val-green">✓ TÜV 09/2025</td></tr>
-        <tr><td class="param">Grid Forming</td><td><span class="zh">支持</span><span class="it" style="display:none">Supportato</span></td><td><span class="zh">支持</span><span class="it" style="display:none">Supportato</span></td><td>—</td><td>—</td><td><span class="zh">支持</span><span class="it" style="display:none">Supportato</span></td><td>—</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 4: BMS Details                         -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="section" id="s4">
-  <div class="section-header">
-    <div class="section-num">4</div>
-    <div class="section-title"><span class="zh">SPAC BMS 详情</span><span class="it" style="display:none">Dettaglio SPAC BMS</span></div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th style="width:160px"><span class="zh">层级</span><span class="it" style="display:none">Livello</span></th><th class="param-col"><span class="zh">参数</span><span class="it" style="display:none">Parametro</span></th><th><span class="zh">规格值</span><span class="it" style="display:none">Valore</span></th></tr></thead>
-      <tbody>
-        <tr class="category-row"><td colspan="3">BMU — <span class="zh">电池管理单元</span><span class="it" style="display:none">Unità di Gestione Batteria</span></td></tr>
-        <tr><td>BMU</td><td class="param"><span class="zh">电芯电压测量范围</span><span class="it" style="display:none">Range misura tensione cella</span></td><td>1~5V</td></tr>
-        <tr><td>BMU</td><td class="param"><span class="zh">电芯电压测量精度</span><span class="it" style="display:none">Precisione tensione cella</span></td><td>±2.5mV</td></tr>
-        <tr><td>BMU</td><td class="param"><span class="zh">电芯电压监测间隔</span><span class="it" style="display:none">Intervallo monit. tensione</span></td><td>≤500ms</td></tr>
-        <tr><td>BMU</td><td class="param"><span class="zh">电芯温度测量精度</span><span class="it" style="display:none">Precisione temperatura cella</span></td><td>±2°C</td></tr>
-        <tr><td>BMU</td><td class="param"><span class="zh">电芯温度测量间隔</span><span class="it" style="display:none">Intervallo misura temperatura</span></td><td>≤3s</td></tr>
-        <tr><td>BMU</td><td class="param"><span class="zh">电芯电流均衡</span><span class="it" style="display:none">Bilanciamento corrente cella</span></td><td><span class="zh">主动均衡</span><span class="it" style="display:none">Bilanciamento attivo</span>, 5A MAX</td></tr>
-        <tr><td>BMU</td><td class="param"><span class="zh">功能</span><span class="it" style="display:none">Funzioni</span></td><td style="text-align:left;font-family:'DM Sans','Noto Sans SC',sans-serif"><span class="zh">电芯电压 / 模组电压 / 线缆温度 / CANBUS / 主动均衡 / 离线检查</span><span class="it" style="display:none">Tensione cella / Tensione modulo / Temperatura cavo / CANBUS / Bilanciamento attivo / Controllo offline</span></td></tr>
-
-        <tr class="category-row"><td colspan="3">CMU — <span class="zh">簇管理单元</span><span class="it" style="display:none">Unità di Gestione Stringa</span></td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">簇电压测量范围</span><span class="it" style="display:none">Range tensione stringa</span></td><td>100~1,500V</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">簇电压测量精度</span><span class="it" style="display:none">Precisione tensione stringa</span></td><td>±1%</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">簇电压监测间隔</span><span class="it" style="display:none">Intervallo monit. tensione stringa</span></td><td>≤200ms</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">簇电流测量范围</span><span class="it" style="display:none">Range corrente stringa</span></td><td>±300A</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">簇电流测量精度</span><span class="it" style="display:none">Precisione corrente stringa</span></td><td>≤1%</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">簇电流监测间隔</span><span class="it" style="display:none">Intervallo monit. corrente stringa</span></td><td>≤50ms</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">SOC计算精度</span><span class="it" style="display:none">Precisione calcolo SOC</span></td><td>≤8%</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">输入绝缘电阻</span><span class="it" style="display:none">Resistenza isolamento ingresso</span></td><td>≥10MΩ, 1,000VDC</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">过流保护</span><span class="it" style="display:none">Protezione sovracorrente</span></td><td>250A / 1s</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">短路保护</span><span class="it" style="display:none">Protezione cortocircuito</span></td><td>500A / 10ms</td></tr>
-        <tr><td>CMU</td><td class="param"><span class="zh">功能</span><span class="it" style="display:none">Funzioni</span></td><td style="text-align:left;font-family:'DM Sans','Noto Sans SC',sans-serif"><span class="zh">SOC/SOH / 过压值 / 过程链 / 在线更新 / 电流泄漏 / 绝缘检测 / 报警管理 / 均衡逻辑控制 / 数据计算与记录 / 簇保护策略</span><span class="it" style="display:none">SOC/SOH / Sovratensione / Catena processi / Aggiornamento online / Perdita corrente / Rilevamento isolamento / Gestione allarmi / Controllo logica bilanciamento / Calcolo e registrazione dati / Strategia protezione stringa</span></td></tr>
-
-        <tr class="category-row"><td colspan="3">GPC — <span class="zh">系统控制器（详见第5节）</span><span class="it" style="display:none">Controllore Sistema (vedi sezione 5)</span></td></tr>
-        <tr><td>GPC</td><td class="param"><span class="zh">功能</span><span class="it" style="display:none">Funzioni</span></td><td style="text-align:left;font-family:'DM Sans','Noto Sans SC',sans-serif"><span class="zh">电池簇总线 / 系统保护策略 / 报警管理 / 故障断开控制 / SOE / 调度策略 / 环境控制 / 消防 / 辅助设备</span><span class="it" style="display:none">Bus stringa batteria / Strategia protezione sistema / Gestione allarmi / Controllo disconnessione guasto / SOE / Strategia dispacciamento / Controllo ambientale / Antincendio / Apparecchiature ausiliarie</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 5: GPC Controller                      -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="section" id="s5">
-  <div class="section-header">
-    <div class="section-num">5</div>
-    <div class="section-title"><span class="zh">GridPoint Controller (GPC)</span><span class="it" style="display:none">GridPoint Controller (GPC)</span></div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th class="param-col"><span class="zh">参数</span><span class="it" style="display:none">Parametro</span></th><th><span class="zh">规格</span><span class="it" style="display:none">Specifica</span></th></tr></thead>
-      <tbody>
-        <tr><td class="param"><span class="zh">电源接口</span><span class="it" style="display:none">Interfaccia alimentazione</span></td><td>AC400V / DC24V</td></tr>
-        <tr><td class="param"><span class="zh">通信与继电器</span><span class="it" style="display:none">Comunicazione e relè</span></td><td>Modbus RTU, Modbus TCP</td></tr>
-        <tr><td class="param"><span class="zh">监控电源备份</span><span class="it" style="display:none">Backup alimentazione</span></td><td><span class="zh">预留UPS接口</span><span class="it" style="display:none">Connessione UPS riservata</span></td></tr>
-        <tr><td class="param"><span class="zh">EMS控制模式</span><span class="it" style="display:none">Modalità controllo EMS</span></td><td style="text-align:left;font-family:'DM Sans','Noto Sans SC',sans-serif"><span class="zh">分时电价(TOU) / 削峰填谷 / 灵活性服务 / 新能源平滑 / Grid-Forming</span><span class="it" style="display:none">Tariffa oraria (TOU) / Peak shaving / Servizi flessibilità / Smoothing rinnovabili / Grid-Forming</span></td></tr>
-        <tr><td class="param"><span class="zh">核心功能</span><span class="it" style="display:none">Funzioni principali</span></td><td style="text-align:left;font-family:'DM Sans','Noto Sans SC',sans-serif"><span class="zh">全方位信号采集 / 综合逻辑控制 / 多级电气与控制保护 / 智能子系统管理 / 快速简单配置 / 第三方SCADA·EMS对接</span><span class="it" style="display:none">Raccolta segnali completa / Controllo logico integrato / Protezione elettrica multilivello / Gestione intelligente sottosistemi / Configurazione rapida / Interfacciamento SCADA·EMS di terze parti</span></td></tr>
-        <tr><td class="param"><span class="zh">适用场景</span><span class="it" style="display:none">Scenari applicativi</span></td><td style="text-align:left;font-family:'DM Sans','Noto Sans SC',sans-serif"><span class="zh">EV充电 / C&I / 火电 / PV / 风电 / 离网</span><span class="it" style="display:none">Ricarica EV / C&I / Termoelettrico / Fotovoltaico / Eolico / Off-grid</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 6: CEI 0-16 Certification              -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="section" id="s6">
-  <div class="section-header">
-    <div class="section-num">6</div>
-    <div class="section-title"><span class="zh">CEI 0-16 认证详情</span><span class="it" style="display:none">Dettaglio Certificazione CEI 0-16</span></div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th class="param-col"><span class="zh">参数</span><span class="it" style="display:none">Parametro</span></th><th>CBAC-125</th><th>CBAC-140</th><th>CBAC-160</th><th>EH-0180</th><th>EH-0200</th><th>CBAC-215</th></tr></thead>
-      <tbody>
-        <tr><td class="param"><span class="zh">认证编号</span><span class="it" style="display:none">N. registrazione</span></td><td colspan="6" style="text-align:center">A3 50692809 0001</td></tr>
-        <tr><td class="param"><span class="zh">报告编号</span><span class="it" style="display:none">N. rapporto</span></td><td colspan="6" style="text-align:center">CN25F7QG 001</td></tr>
-        <tr><td class="param"><span class="zh">认证日期</span><span class="it" style="display:none">Data certificazione</span></td><td colspan="6" style="text-align:center">08.09.2025</td></tr>
-        <tr><td class="param"><span class="zh">认证机构</span><span class="it" style="display:none">Ente certificatore</span></td><td colspan="6" style="text-align:center">TÜV Rheinland LGA Products GmbH</td></tr>
-        <tr><td class="param"><span class="zh">测试标准</span><span class="it" style="display:none">Norme di riferimento</span></td><td colspan="6" style="text-align:center">CEI 0-16:2022-03 + V1:2022-11 + V2:2023-05 + V3:2024-01</td></tr>
-        <tr><td class="param"><span class="zh">设备类型</span><span class="it" style="display:none">Tipologia apparato</span></td><td colspan="6" style="text-align:center"><span class="zh">静态转换设备</span><span class="it" style="display:none">Dispositivo di Conversione Statica</span></td></tr>
-        <tr><td class="param"><span class="zh">固件版本</span><span class="it" style="display:none">Versione firmware</span></td><td colspan="6" style="text-align:center">V100B000D000</td></tr>
-        <tr><td class="param"><span class="zh">相数</span><span class="it" style="display:none">N. fasi</span></td><td colspan="6" style="text-align:center"><span class="zh">三相</span><span class="it" style="display:none">Trifase</span></td></tr>
-        <tr><td class="param"><span class="zh">电站功率范围</span><span class="it" style="display:none">Potenza max impianto</span></td><td colspan="6" style="text-align:center">P<sub>plant</sub> ≥ 400kW</td></tr>
-        <tr><td class="param"><span class="zh">额定有功 P<sub>NINV</sub></span><span class="it" style="display:none">Potenza attiva nom.</span></td><td><strong>125kW</strong></td><td><strong>140kW</strong></td><td><strong>160kW</strong></td><td><strong>180kW</strong></td><td><strong>200kW</strong></td><td><strong>215kW</strong></td></tr>
-        <tr><td class="param"><span class="zh">最大视在功率 S<sub>MAX</sub></span><span class="it" style="display:none">Potenza app. max</span></td><td>137.5kVA</td><td>154kVA</td><td>176kVA</td><td>198kVA</td><td>220kVA</td><td>236.5kVA</td></tr>
-        <tr><td class="param"><span class="zh">电池单元数</span><span class="it" style="display:none">N. unità batteria</span></td><td>5/6</td><td>5/6</td><td>6/7</td><td>7</td><td>7/8</td><td>7/8</td></tr>
-        <tr><td class="param"><span class="zh">最大放电功率 PS<sub>max</sub></span><span class="it" style="display:none">Potenza scarica max</span></td><td>137.5kW</td><td>154kW</td><td>176kW</td><td>198kW</td><td>220kW</td><td>236.5kW</td></tr>
-        <tr><td class="param"><span class="zh">最大充电功率 PC<sub>max</sub></span><span class="it" style="display:none">Potenza carica max</span></td><td>137.5kW</td><td>154kW</td><td>176kW</td><td>198kW</td><td>220kW</td><td>236.5kW</td></tr>
-        <tr><td class="param"><span class="zh">电池容量</span><span class="it" style="display:none">Capacità batteria</span></td><td>261/313kWh</td><td>261/313kWh</td><td>313/365kWh</td><td>365kWh</td><td>365/417kWh</td><td>365/417kWh</td></tr>
-        <tr><td class="param"><span class="zh">测试实验室</span><span class="it" style="display:none">Laboratorio di prova</span></td><td colspan="6" style="text-align:center">TÜV Rheinland (Shenzhen) Co., Ltd. — CNAS L3080</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 7: Certifications Summary              -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="section" id="s7">
-  <div class="section-header">
-    <div class="section-num">7</div>
-    <div class="section-title"><span class="zh">认证汇总矩阵</span><span class="it" style="display:none">Riepilogo Certificazioni</span></div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th><span class="zh">认证标准</span><span class="it" style="display:none">Standard</span></th><th><span class="zh">认证范围</span><span class="it" style="display:none">Ambito</span></th><th>20C2H1600K</th><th>20C2H1000KLS</th><th>20C2H1200K</th><th>20C1H1000K</th><th>10C2H360K</th></tr></thead>
-      <tbody>
-        <tr><td class="param">UL9540</td><td><span class="zh">系统级安全</span><span class="it" style="display:none">Sicurezza sistema</span></td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td></tr>
-        <tr><td class="param">UL9540A</td><td><span class="zh">热失控测试</span><span class="it" style="display:none">Test fuga termica</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">UL1973</td><td><span class="zh">电池安全</span><span class="it" style="display:none">Sicurezza batteria</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">IEC62619</td><td><span class="zh">电池安全</span><span class="it" style="display:none">Sicurezza batteria</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-green">✓ <span class="zh">簇级</span><span class="it" style="display:none">stringa</span></td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">IEC62933</td><td><span class="zh">ESS安全</span><span class="it" style="display:none">Sicurezza ESS</span></td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">IEC62477</td><td><span class="zh">PCS安全</span><span class="it" style="display:none">Sicurezza PCS</span></td><td class="val-green">✓ PCS</td><td class="val-green">✓ PCS</td><td class="val-green">✓ PCS</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">CE MARK (TÜV)</td><td><span class="zh">欧洲合规</span><span class="it" style="display:none">Conformità UE</span></td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">UN3536/UN38.3</td><td><span class="zh">运输安全</span><span class="it" style="display:none">Sicurezza trasporto</span></td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-green">✓</td></tr>
-        <tr><td class="param">NFPA855</td><td><span class="zh">消防合规</span><span class="it" style="display:none">Antincendio</span></td><td class="val-green">✓</td><td class="val-green">✓</td><td class="val-grey">—</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">EN50549</td><td><span class="zh">电网接入</span><span class="it" style="display:none">Connessione rete</span></td><td class="val-green">✓ PCS</td><td class="val-green">✓ PCS</td><td class="val-grey">—</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">IEEE1547</td><td><span class="zh">电网接入</span><span class="it" style="display:none">Connessione rete</span></td><td class="val-green">✓ PCS</td><td class="val-green">✓ PCS</td><td class="val-green">✓ PCS</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">UL1741</td><td><span class="zh">逆变器安全</span><span class="it" style="display:none">Sicurezza inverter</span></td><td class="val-green">✓ PCS</td><td class="val-green">✓ PCS</td><td class="val-green">✓ PCS</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param" style="color:var(--cube-blue);font-weight:700">CEI 0-16</td><td><span class="zh">意大利MV并网</span><span class="it" style="display:none">Connessione MT Italia</span></td><td class="val-green">✓ PCS<br>TÜV 09/2025</td><td class="val-green">✓ PCS<br>TÜV 09/2025</td><td class="val-green">✓ PCS<br>TÜV 09/2025</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-        <tr><td class="param">DNV Bankability</td><td><span class="zh">可融资性报告</span><span class="it" style="display:none">Rapporto bancabilità</span></td><td class="val-green">✓</td><td class="val-grey">—</td><td class="val-grey">—</td><td class="val-grey">—</td><td class="val-grey">—</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-</div><!-- /content -->
-
-<footer class="site-footer">
-  ©2025 Cubenergy. All rights reserved. | <span class="zh">本文档基于官方Datasheet整理，仅供内部参考</span><span class="it" style="display:none">Documento basato su Datasheet ufficiali, solo per uso interno</span> | Cube Italia
-</footer>
 
 <script>
-function setLang(lang) {
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-
-  const zhEls = document.querySelectorAll('.zh');
-  const itEls = document.querySelectorAll('.it');
-  const itSubEls = document.querySelectorAll('.it-sub');
-
-  if (lang === 'zh') {
-    zhEls.forEach(e => e.style.display = '');
-    itEls.forEach(e => e.style.display = 'none');
-    itSubEls.forEach(e => e.style.display = 'none');
-    document.getElementById('headerTitle').querySelector || null;
-  } else if (lang === 'it') {
-    zhEls.forEach(e => e.style.display = 'none');
-    itEls.forEach(e => e.style.display = '');
-    itSubEls.forEach(e => e.style.display = 'none');
-  } else { // both
-    zhEls.forEach(e => e.style.display = '');
-    itEls.forEach(e => e.style.display = '');
-    itSubEls.forEach(e => e.style.display = '');
-  }
-
-  // Update nav
-  document.querySelectorAll('.nav-link').forEach(a => {
-    const zh = a.dataset.zh;
-    const it = a.dataset.it;
-    if (lang === 'zh') a.textContent = zh;
-    else if (lang === 'it') a.textContent = it;
-    else a.textContent = zh + ' / ' + it;
-  });
+// ====== TAB SWITCHING ======
+function switchTab(i) {
+  document.querySelectorAll('.tab-btn').forEach((b,idx) => b.classList.toggle('active', idx===i));
+  document.querySelectorAll('.tab-panel').forEach((p,idx) => p.classList.toggle('active', idx===i));
 }
 
-// Smooth scroll for nav
-document.querySelectorAll('.nav-link').forEach(a => {
-  a.addEventListener('click', function(e) {
-    e.preventDefault();
-    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-    this.classList.add('active');
-    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-  });
-});
+// ====== PRODUCT SELECTOR LOGIC ======
+let selections = {};
+
+const products = {
+  '20C2H1000KLS': {
+    name: 'PowerCombo-20C2H1000KLS',
+    power: '1.000 kW',
+    maxPower: '1.100 kW',
+    voltage: '400V',
+    capacity6: '2.315 kWh',
+    capacity5: '1.929 kWh',
+    cooling: 'Liquid Cooling',
+    cycle: '8.000 cicli (70% @0,5C)',
+    cell: '3,2V/314Ah LFP',
+    weight: '≤26,1 t (6P) / ≤23,6 t (5P)',
+    dim: '6.058×2.438×2.896 mm',
+    cei: false,
+    gfm: true,
+    certs: 'UL9540, IEC62933, CE MARK TÜV Rheinland'
+  },
+  '20C2H1200K': {
+    name: 'PowerCombo-20C2H1200K',
+    power: '1.200 kW',
+    maxPower: '1.320 kW',
+    voltage: '690V',
+    capacity: '2.064 kWh',
+    cooling: 'Air Cooling',
+    cycle: '5.000 cicli (80% @0,5C)',
+    cell: '3,2V/280Ah LFP',
+    weight: '26,5 t',
+    dim: '6.058×2.438×2.591 mm',
+    cei: true,
+    ceiNote: 'Tramite PCS: EH-0180/0200-HA-M o CBAC-215-HA-M',
+    gfm: false,
+    certs: 'UL9540, IEC62933, CE MARK TÜV Rheinland'
+  },
+  '20C2H1600K': {
+    name: 'PowerCombo-20C2H1600K',
+    power: '1.600 kW',
+    maxPower: '1.760 kW',
+    voltage: '690V',
+    capacity: '3.086 kWh',
+    cooling: 'Liquid Cooling',
+    cycle: '8.000 cicli (70% @0,5C)',
+    cell: '3,2V/314Ah LFP',
+    weight: '≤31 t',
+    dim: '6.058×2.438×2.896 mm',
+    cei: true,
+    ceiNote: 'Tramite PCS: CBAC-125/140/160-HA-M (certificato TÜV Rheinland)',
+    gfm: true,
+    certs: 'UL9540, IEC62933, CE MARK TÜV Rheinland'
+  },
+  'FlexCombo': {
+    name: 'FlexCombo-D6500',
+    power: '3.200 kW',
+    maxPower: '3.520 kW',
+    voltage: '690V',
+    capacity: '6.687 kWh',
+    cooling: 'Liquid Cooling',
+    cycle: '8.000 cicli (70% @0,5C)',
+    cell: '3,2V/314Ah LFP',
+    weight: '7,8 t × 8 moduli D1',
+    dim: '2.000×1.785×2.545 mm (per D1)',
+    cei: false,
+    ceiNote: 'Da verificare — contattare team tecnico',
+    gfm: true,
+    gfmDetail: 'VSG (Virtual Synchronous Generator) con commutazione PQ/GFM',
+    certs: 'UL9540, CE',
+    scalable: true
+  }
+};
+
+function selectStep(step, value) {
+  selections[step] = value;
+  // Highlight selected
+  const parent = document.getElementById('step'+step);
+  parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  document.getElementById('sn'+step).classList.add('done');
+
+  if (step === 1) {
+    showStep2(value);
+  } else if (step === 2) {
+    showStep3(value);
+  } else if (step === 3) {
+    showStep4(value);
+  } else if (step === 4) {
+    showResult();
+  }
+}
+
+function enableStep(n) {
+  const el = document.getElementById('step'+n);
+  el.style.opacity = '1';
+  el.style.pointerEvents = 'auto';
+  el.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function showStep2(voltage) {
+  const container = document.getElementById('power-options');
+  let html = '';
+  if (voltage === '400v') {
+    html = `
+      <button class="opt-btn" onclick="selectStep(2,'1000kw')">
+        <span class="opt-label">1.000 kW</span>
+        <span class="opt-desc">Ideale per C&I medio: fabbriche, edifici commerciali, centri logistici.</span>
+      </button>`;
+  } else {
+    html = `
+      <button class="opt-btn" onclick="selectStep(2,'1200kw')">
+        <span class="opt-label">1.200 kW</span>
+        <span class="opt-desc">Soluzione intermedia per impianti industriali medio-grandi.</span>
+      </button>
+      <button class="opt-btn" onclick="selectStep(2,'1600kw')">
+        <span class="opt-label">1.600 kW</span>
+        <span class="opt-desc">Alta potenza per grandi impianti C&I e applicazioni utility-scale.</span>
+      </button>
+      <button class="opt-btn" onclick="selectStep(2,'3200kw')">
+        <span class="opt-label">3.200 kW+</span>
+        <span class="opt-desc">Scala utility — design modulare, espandibile fino a 6,7 MWh e oltre.</span>
+        <span class="opt-badge">Modulare</span>
+      </button>`;
+  }
+  container.innerHTML = html;
+  enableStep(2);
+  // Reset subsequent
+  ['step3','step4'].forEach(s => { document.getElementById(s).style.opacity='0.4'; document.getElementById(s).style.pointerEvents='none'; });
+  document.getElementById('result-panel').classList.remove('visible');
+}
+
+function showStep3(power) {
+  const container = document.getElementById('capacity-options');
+  let html = '';
+  if (power === '1000kw') {
+    html = `
+      <button class="opt-btn" onclick="selectStep(3,'1929')">
+        <span class="opt-label">~2h (1.929 kWh)</span>
+        <span class="opt-desc">5 Pack/stringa — Peak shaving e time-of-use ottimizzazione.</span>
+      </button>
+      <button class="opt-btn" onclick="selectStep(3,'2315')">
+        <span class="opt-label">~2,3h (2.315 kWh)</span>
+        <span class="opt-desc">6 Pack/stringa — Maggiore autonomia per servizi di flessibilità.</span>
+      </button>`;
+  } else if (power === '1200kw') {
+    html = `
+      <button class="opt-btn" onclick="selectStep(3,'2064')">
+        <span class="opt-label">~1,7h (2.064 kWh)</span>
+        <span class="opt-desc">Configurazione standard con celle 280Ah, raffreddamento ad aria.</span>
+      </button>`;
+  } else if (power === '1600kw') {
+    html = `
+      <button class="opt-btn" onclick="selectStep(3,'3086')">
+        <span class="opt-label">~1,9h (3.086 kWh)</span>
+        <span class="opt-desc">8 stringhe LS385, massima densità energetica in container 20ft.</span>
+      </button>`;
+  } else if (power === '3200kw') {
+    html = `
+      <button class="opt-btn" onclick="selectStep(3,'6687')">
+        <span class="opt-label">~2,1h (6.687 kWh)</span>
+        <span class="opt-desc">8 moduli D1 FlexCombo completi — configurazione standard.</span>
+      </button>
+      <button class="opt-btn" onclick="selectStep(3,'flex_custom')">
+        <span class="opt-label">Configurazione personalizzata</span>
+        <span class="opt-desc">Da 835 kWh a 6.687 kWh — scalabile per fasi di progetto.</span>
+        <span class="opt-badge">Scalabile</span>
+      </button>`;
+  }
+  container.innerHTML = html;
+  enableStep(3);
+  document.getElementById('step4').style.opacity='0.4';
+  document.getElementById('step4').style.pointerEvents='none';
+  document.getElementById('result-panel').classList.remove('visible');
+}
+
+function showStep4() {
+  const container = document.getElementById('special-options');
+  container.innerHTML = `
+    <button class="opt-btn" onclick="selectStep(4,'standard')">
+      <span class="opt-label">Standard</span>
+      <span class="opt-desc">Peak shaving, time-of-use, demand management — nessun requisito speciale.</span>
+    </button>
+    <button class="opt-btn" onclick="selectStep(4,'gfm')">
+      <span class="opt-label">Grid Forming (VSG)</span>
+      <span class="opt-desc">Funzionalità di formazione di rete, supporto inerzia, funzionamento in isola.</span>
+    </button>
+    <button class="opt-btn" onclick="selectStep(4,'flex_service')">
+      <span class="opt-label">Servizi di flessibilità</span>
+      <span class="opt-desc">Partecipazione ai mercati MSD/MACSE, regolazione frequenza, UVAM.</span>
+    </button>`;
+  enableStep(4);
+  document.getElementById('result-panel').classList.remove('visible');
+}
+
+function showResult() {
+  let productKey = '';
+  const power = selections[2];
+  const cap = selections[3];
+
+  if (power === '1000kw') {
+    productKey = '20C2H1000KLS';
+  } else if (power === '1200kw') {
+    productKey = '20C2H1200K';
+  } else if (power === '1600kw') {
+    productKey = '20C2H1600K';
+  } else if (power === '3200kw') {
+    productKey = 'FlexCombo';
+  }
+
+  const p = products[productKey];
+  const special = selections[4];
+  const needsGFM = special === 'gfm';
+
+  let capDisplay = p.capacity || (cap === '2315' ? p.capacity6 : p.capacity5);
+
+  let ceiHTML = '';
+  if (selections[1] === '690v') {
+    if (p.cei) {
+      ceiHTML = `<div class="cei-badge">✅ CEI 0-16 Certificato — ${p.ceiNote || 'TÜV Rheinland'}</div>`;
+    } else {
+      ceiHTML = `<div class="cei-badge warn">⚠️ CEI 0-16 — ${p.ceiNote || 'Verifica necessaria'}</div>`;
+    }
+  }
+
+  let gfmHTML = '';
+  if (needsGFM) {
+    if (p.gfm) {
+      gfmHTML = `<div class="cei-badge">✅ Grid Forming supportato${p.gfmDetail ? ' — ' + p.gfmDetail : ''}</div>`;
+    } else {
+      gfmHTML = `<div class="cei-badge warn">⚠️ Grid Forming non indicato nella scheda tecnica di questo modello</div>`;
+    }
+  }
+
+  let scalableNote = '';
+  if (p.scalable) {
+    scalableNote = `<div class="cei-badge">🔧 Design modulare — espandibile per fasi di progetto. Vedi scheda "Architettura FlexCombo".</div>`;
+  }
+
+  const panel = document.getElementById('result-panel');
+  panel.innerHTML = `
+    <h3>✅ Prodotto Consigliato</h3>
+    <div style="font-size:28px; font-weight:700; margin-bottom:20px; color:#00B4D8;">${p.name}</div>
+    <div class="result-grid">
+      <div class="result-box">
+        <div class="rb-label">Potenza Nominale / Massima</div>
+        <div class="rb-value">${p.power} / ${p.maxPower}</div>
+      </div>
+      <div class="result-box">
+        <div class="rb-label">Capacità Energetica</div>
+        <div class="rb-value">${capDisplay}</div>
+      </div>
+      <div class="result-box">
+        <div class="rb-label">Tensione di Rete</div>
+        <div class="rb-value">${p.voltage}</div>
+        <div class="rb-detail">Range: ${p.voltage === '690V' ? '586,5~759V' : '340~440V'}</div>
+      </div>
+      <div class="result-box">
+        <div class="rb-label">Cella / Ciclo di Vita</div>
+        <div class="rb-value">${p.cell}</div>
+        <div class="rb-detail">${p.cycle}</div>
+      </div>
+      <div class="result-box">
+        <div class="rb-label">Raffreddamento</div>
+        <div class="rb-value">${p.cooling}</div>
+      </div>
+      <div class="result-box">
+        <div class="rb-label">Dimensioni Container</div>
+        <div class="rb-value" style="font-size:14px;">${p.dim}</div>
+        <div class="rb-detail">Peso: ${p.weight}</div>
+      </div>
+      <div class="result-box" style="grid-column: span 2;">
+        <div class="rb-label">Certificazioni di Sistema</div>
+        <div class="rb-value" style="font-size:14px;">${p.certs}</div>
+      </div>
+    </div>
+    ${ceiHTML}
+    ${gfmHTML}
+    ${scalableNote}
+    <button class="reset-btn" onclick="resetSelector()">🔄 Ricominciare la selezione</button>
+  `;
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function resetSelector() {
+  selections = {};
+  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.step-num').forEach(s => s.classList.remove('done'));
+  ['step2','step3','step4'].forEach(s => { document.getElementById(s).style.opacity='0.4'; document.getElementById(s).style.pointerEvents='none'; });
+  document.getElementById('result-panel').classList.remove('visible');
+  document.getElementById('step1').scrollIntoView({ behavior:'smooth' });
+}
+
+// ====== FLEXCOMBO DIAGRAM ======
+function updateFlexDiagram() {
+  const n = parseInt(document.getElementById('d1Slider').value);
+  document.getElementById('d1Count').textContent = n;
+
+  // Stats
+  const cap = n * 835;
+  const power = n * 400;
+  const strings = n * 2;
+  const weight = (n * 7.8).toFixed(1);
+  document.getElementById('fCapacity').textContent = cap.toLocaleString('it-IT');
+  document.getElementById('fPower').textContent = power.toLocaleString('it-IT');
+  document.getElementById('fStrings').textContent = strings;
+  document.getElementById('fWeight').textContent = weight.replace('.', ',');
+
+  // MV note
+  document.getElementById('mvD1count').textContent = n;
+  document.getElementById('mvPower2').textContent = power.toLocaleString('it-IT');
+  const mvModel = power > 1600 ? 'CBMV-6600-EU' : 'CBMV-3300-EU';
+  const mvKVA = power > 1600 ? '6.600' : '3.300';
+  document.getElementById('mvModel').textContent = mvModel;
+  document.getElementById('mvKVA').textContent = mvKVA;
+
+  drawFlexSvg(n);
+}
+
+function drawFlexSvg(n) {
+  const svg = document.getElementById('flexSvg');
+  const pw = n <= 4 ? 1100 : 1100;
+  const cols = Math.min(n, 4);
+  const rows = Math.ceil(n / 4);
+  const svgH = 320 + rows * 100;
+  svg.setAttribute('viewBox', `0 0 ${pw} ${svgH}`);
+
+  let html = '';
+
+  // Styles
+  html += `<defs>
+    <filter id="ds" x="-4%" y="-4%" width="108%" height="108%"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.1"/></filter>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0072CE"/><stop offset="100%" stop-color="#0052A3"/></linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#059669"/></linearGradient>
+    <linearGradient id="gOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/></linearGradient>
+    <linearGradient id="gPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#6D28D9"/></linearGradient>
+  </defs>`;
+
+  // Top: Grid / Rete
+  html += `<rect x="440" y="10" width="220" height="44" rx="8" fill="#1B2D4F" filter="url(#ds)"/>
+    <text x="550" y="37" text-anchor="middle" fill="white" font-family="DM Sans" font-size="14" font-weight="700">⚡ Rete MT (10~35kV)</text>`;
+
+  // MV Transformer
+  const mvW = 200, mvH = 50, mvX = 450, mvY = 74;
+  html += `<rect x="${mvX}" y="${mvY}" width="${mvW}" height="${mvH}" rx="8" fill="url(#gGreen)" filter="url(#ds)"/>
+    <text x="${mvX+mvW/2}" y="${mvY+20}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="11" font-weight="700">Trasformatore MV</text>
+    <text x="${mvX+mvW/2}" y="${mvY+38}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="10" opacity="0.85">${n > 4 ? 'CBMV-6600-EU' : 'CBMV-3300-EU'}</text>`;
+  // Line from grid to MV
+  html += `<line x1="550" y1="54" x2="550" y2="74" stroke="#64748B" stroke-width="2"/>`;
+
+  // PowerRack(s)
+  const prY = mvY + mvH + 20;
+  const numPR = n <= 4 ? 1 : 2;
+  if (numPR === 1) {
+    const prX = 400;
+    html += `<rect x="${prX}" y="${prY}" width="300" height="50" rx="8" fill="url(#gOrange)" filter="url(#ds)"/>
+      <text x="${prX+150}" y="${prY+20}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="11" font-weight="700">PowerRack A — ${Math.min(n*2, 8)}× PCS 200kW</text>
+      <text x="${prX+150}" y="${prY+38}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="10" opacity="0.85">${Math.min(n*400, 1600)} kW totali</text>`;
+    html += `<line x1="550" y1="${mvY+mvH}" x2="550" y2="${prY}" stroke="#64748B" stroke-width="2"/>`;
+  } else {
+    const leftPCs = Math.min(n, 4) * 2;
+    const rightPCs = (n - 4) * 2;
+    html += `<rect x="200" y="${prY}" width="260" height="50" rx="8" fill="url(#gOrange)" filter="url(#ds)"/>
+      <text x="330" y="${prY+20}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="11" font-weight="700">PowerRack A — ${leftPCs}× PCS 200kW</text>
+      <text x="330" y="${prY+38}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="10" opacity="0.85">${leftPCs*200} kW</text>`;
+    html += `<rect x="640" y="${prY}" width="260" height="50" rx="8" fill="url(#gOrange)" filter="url(#ds)"/>
+      <text x="770" y="${prY+20}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="11" font-weight="700">PowerRack B — ${rightPCs}× PCS 200kW</text>
+      <text x="770" y="${prY+38}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="10" opacity="0.85">${rightPCs*200} kW</text>`;
+    html += `<line x1="550" y1="${mvY+mvH}" x2="550" y2="${prY-5}" stroke="#64748B" stroke-width="2"/>
+      <line x1="330" y1="${prY-5}" x2="770" y2="${prY-5}" stroke="#64748B" stroke-width="2"/>
+      <line x1="330" y1="${prY-5}" x2="330" y2="${prY}" stroke="#64748B" stroke-width="2"/>
+      <line x1="770" y1="${prY-5}" x2="770" y2="${prY}" stroke="#64748B" stroke-width="2"/>`;
+  }
+
+  // GPC
+  const gpcX = 920, gpcY = prY - 10;
+  html += `<rect x="${gpcX}" y="${gpcY}" width="130" height="70" rx="8" fill="url(#gPurple)" filter="url(#ds)"/>
+    <text x="${gpcX+65}" y="${gpcY+25}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="11" font-weight="700">GPC</text>
+    <text x="${gpcX+65}" y="${gpcY+42}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="9" opacity="0.85">GridPoint</text>
+    <text x="${gpcX+65}" y="${gpcY+55}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="9" opacity="0.85">Controller</text>`;
+  // Dashed line to PowerRack
+  const dashY = prY + 25;
+  html += `<line x1="${numPR===1 ? 700 : 900}" y1="${dashY}" x2="${gpcX}" y2="${dashY}" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="6,4"/>`;
+
+  // D1 modules
+  const d1StartY = prY + 70;
+  const d1W = 200, d1H = 80, d1Gap = 20;
+  const totalW = cols * d1W + (cols - 1) * d1Gap;
+  const d1StartX = (pw - totalW) / 2;
+
+  for (let i = 0; i < n; i++) {
+    const col = i % 4;
+    const row = Math.floor(i / 4);
+    const x = d1StartX + col * (d1W + d1Gap);
+    const y = d1StartY + row * (d1H + d1Gap);
+    const opacity = 1;
+
+    html += `<g class="d1-block" style="opacity:${opacity}">
+      <rect x="${x}" y="${y}" width="${d1W}" height="${d1H}" rx="8" fill="url(#gBlue)" filter="url(#ds)"/>
+      <text x="${x+d1W/2}" y="${y+20}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="12" font-weight="700">D1 #${i+1}</text>
+      <text x="${x+d1W/2}" y="${y+38}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="10" opacity="0.85">2× Stringa LS417</text>
+      <text x="${x+d1W/2}" y="${y+52}" text-anchor="middle" fill="white" font-family="DM Sans" font-size="10" opacity="0.85">835 kWh | 400 kW</text>
+      <text x="${x+d1W/2}" y="${y+68}" text-anchor="middle" fill="white" font-family="Space Mono" font-size="9" opacity="0.6">2.000×1.785×2.545mm</text>
+    </g>`;
+
+    // Connection line up to PowerRack
+    const lineTopY = numPR === 1 ? prY + 50 : prY + 50;
+    const prCenterX = numPR === 1 ? 550 : (i < 4 ? 330 : 770);
+    const d1CenterX = x + d1W / 2;
+    if (row === 0) {
+      html += `<line x1="${d1CenterX}" y1="${y}" x2="${d1CenterX}" y2="${d1StartY - 10}" stroke="#0072CE" stroke-width="1.5" opacity="0.5"/>`;
+    }
+  }
+
+  // Horizontal bus from D1s to PowerRack
+  if (n > 0) {
+    const busY = d1StartY - 10;
+    const firstX = d1StartX + d1W / 2;
+    const lastX = d1StartX + (Math.min(n, 4) - 1) * (d1W + d1Gap) + d1W / 2;
+    html += `<line x1="${firstX}" y1="${busY}" x2="${lastX}" y2="${busY}" stroke="#0072CE" stroke-width="2" opacity="0.5"/>`;
+    const midX = (firstX + lastX) / 2;
+    html += `<line x1="${midX}" y1="${busY}" x2="${numPR===1 ? 550 : 330}" y2="${prY+50}" stroke="#0072CE" stroke-width="2" opacity="0.4"/>`;
+
+    if (n > 4) {
+      const firstX2 = d1StartX + d1W / 2;
+      const lastX2 = d1StartX + (n - 5) * (d1W + d1Gap) + d1W / 2;
+      const busY2 = d1StartY + d1H + d1Gap - 10;
+      for (let i = 4; i < n; i++) {
+        const col = i % 4;
+        const cx = d1StartX + col * (d1W + d1Gap) + d1W / 2;
+        html += `<line x1="${cx}" y1="${d1StartY + d1H + d1Gap}" x2="${cx}" y2="${busY2}" stroke="#0072CE" stroke-width="1.5" opacity="0.5"/>`;
+      }
+      const f2 = d1StartX + 0 * (d1W + d1Gap) + d1W / 2;
+      const l2 = d1StartX + (n - 5) * (d1W + d1Gap) + d1W / 2;
+      html += `<line x1="${f2}" y1="${busY2}" x2="${l2}" y2="${busY2}" stroke="#0072CE" stroke-width="2" opacity="0.5"/>`;
+      const mid2 = (f2 + l2) / 2;
+      html += `<line x1="${mid2}" y1="${busY2}" x2="770" y2="${prY+50}" stroke="#0072CE" stroke-width="2" opacity="0.4"/>`;
+    }
+  }
+
+  svg.innerHTML = html;
+}
+
+// Init
+updateFlexDiagram();
 </script>
+
 </body>
 </html>
